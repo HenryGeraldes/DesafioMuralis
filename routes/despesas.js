@@ -28,6 +28,8 @@ router.post('/api/despesas', (req, res) => {
     }
     res.json({ data: id, success: true });
   });
+  console.log('Rota POST acessada com sucesso:', req.body);
+    res.json({ data: "Teste", success: true });
 });
 
 module.exports = router;
