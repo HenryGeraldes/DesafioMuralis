@@ -7,7 +7,7 @@ const PORT = 3000;
 
 // Middleware
 app.use(bodyParser.json());
-app.use(despesasRoutes);
+app.use('/api/despesas', despesasRoutes);
 
 // Iniciar servidor
 app.listen(PORT, () => {

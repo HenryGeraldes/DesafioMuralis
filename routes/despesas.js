@@ -1,35 +1,70 @@
 const express = require('express');
 const router = express.Router();
-const Despesa = require('../models/despesas');
+const Despesa = require('../models/despesas'); // Importa a model de despesas
 
-// Listar despesas
-router.get('/api/despesas', (req, res) => {
-  Despesa.listar((err, despesas) => {
-    if (err) {
-      return res.status(500).json({ data: null, success: false });
-    }
+// Rota para listar as despesas do mês atual (GET /api/despesas)
+router.get('/', async (req, res) => {
+  try {
+    const despesas = await Despesa.listar();
     res.json({ data: despesas, success: true });
-  });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ data: null, success: false, message: 'Erro ao listar as despesas.' });
+  }
 });
 
-// Cadastrar despesa
-router.post('/api/despesas', (req, res) => {
+// Rota para cadastrar uma nova despesa (POST /api/despesas)
+router.post('/', async (req, res) => {
   const { valor, data_compra, descricao, tipo_pagamento, categoria_id } = req.body;
 
   if (!valor || !data_compra || !descricao || !tipo_pagamento || !categoria_id) {
-    return res.status(400).json({ data: null, success: false });
+    return res.status(400).json({ data: null, success: false, message: 'Campos obrigatórios não informados.' });
   }
 
-  const novaDespesa = { valor, data_compra, descricao, tipo_pagamento, categoria_id };
-
-  Despesa.cadastrar(novaDespesa, (err, id) => {
-    if (err) {
-      return res.status(500).json({ data: null, success: false });
-    }
-    res.json({ data: id, success: true });
-  });
-  console.log('Rota POST acessada com sucesso:', req.body);
-    res.json({ data: "Teste", success: true });
+  try {
+    const id = await Despesa.cadastrar({ valor, data_compra, descricao, tipo_pagamento, categoria_id });
+    res.status(201).json({ data: { id }, success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ data: null, success: false, message: 'Erro ao cadastrar despesa.' });
+  }
 });
 
+// Atualiza uma despesa
+router.put('/:id', async (req, res) => {
+    const { id } = req.params;
+    const { valor, data_compra, descricao, tipo_pagamento, categoria_id } = req.body;
+  
+    if (!valor || !data_compra || !descricao || !tipo_pagamento || !categoria_id) {
+      return res.status(400).json({ data: null, success: false, message: 'Campos obrigatórios não informados.' });
+    }
+  
+    try {
+      const result = await Despesa.atualizar(id, { valor, data_compra, descricao, tipo_pagamento, categoria_id });
+      if (result === 0) {
+        return res.status(404).json({ data: null, success: false, message: 'Despesa não encontrada.' });
+      }
+      res.status(200).json({ data: { id }, success: true });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ data: null, success: false, message: 'Erro ao atualizar despesa.' });
+    }
+  });
+  
+// Deleta uma despesa
+router.delete('/:id', async (req, res) => {
+    const { id } = req.params;
+  
+    try {
+      const result = await Despesa.deletar(id);
+      if (result === 0) {
+        return res.status(404).json({ data: null, success: false, message: 'Despesa não encontrada.' });
+      }
+      res.status(200).json({ data: null, success: true });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ data: null, success: false, message: 'Erro ao deletar despesa.' });
+    }
+  });
+  
 module.exports = router;
