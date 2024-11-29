@@ -85,5 +85,49 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// Rota para listar as categorias (GET /api/categorias)
+router.get('/categorias', async (req, res) => {
+  try {
+    const categorias = await Despesa.listarCategorias();
+    res.json({ data: categorias, success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ data: null, success: false, message: 'Erro ao listar categorias.' });
+  }
+});
+
+// Rota para criar uma nova categoria (POST /api/categorias)
+router.post('/categorias', async (req, res) => {
+  const { nome, descricao } = req.body;
+
+  if (!nome || !descricao) {
+    return res.status(400).json({ data: null, success: false, message: 'Campos obrigatórios não informados.' });
+  }
+
+  try {
+    const id = await Despesa.criarCategoria({ nome, descricao });
+    res.status(201).json({ data: { id }, success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ data: null, success: false, message: 'Erro ao criar categoria.' });
+  }
+});
+
+// Rota para deletar uma categoria (DELETE /api/categorias/:id)
+router.delete('/categorias/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await Despesa.deletarCategoria(id);
+    if (result === 0) {
+      return res.status(404).json({ data: null, success: false, message: 'Categoria não encontrada.' });
+    }
+    res.status(200).json({ data: null, success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ data: null, success: false, message: 'Erro ao deletar categoria.' });
+  }
+});
+
   
 module.exports = router;
