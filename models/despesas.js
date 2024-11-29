@@ -63,7 +63,19 @@ static deletar(id) {
         resolve(this.changes); // Retorna o número de linhas afetadas
       });
     });
-  } 
+  }
+  static listarPorId(id) {
+    return new Promise((resolve, reject) => {
+      const sql = `SELECT * FROM despesas WHERE id = ?`;
+      db.get(sql, [id], (err, row) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(row); // Retorna a despesa encontrada ou `undefined` se não existir
+      });
+    });
+  }
+   
 }
 
 module.exports = Despesa;

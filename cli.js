@@ -13,7 +13,8 @@ Escolha uma operação:
 2 - Cadastrar despesa (POST)
 3 - Atualizar despesa (PUT)
 4 - Deletar despesa (DELETE)
-5 - Sair
+5 - Listar despesa por ID (GetbyID)
+6 - Sair
 > `;
 
 // Função para exibir o menu principal
@@ -32,7 +33,10 @@ function mostrarMenu() {
       case '4': // DELETE
         await deletarDespesa();
         break;
-      case '5': // Sair
+        case '5': // GETbyID
+        await listarDespesaPorId();
+        break;
+      case '6': // Sair
         rl.close();
         return;
       default:
@@ -135,6 +139,24 @@ async function deletarDespesa() {
   });
 }
 
+// Função para listar despesa por ID (GETbyID)
+async function listarDespesaPorId() {
+     rl.question('Digite o ID da despesa que deseja consultar: ', async (id)=> {
+  
+    try {
+      const despesa = await Despesa.listarPorId(id);
+      if (!despesa) {
+        console.log('Despesa não encontrada.');
+      } else {
+        console.log('Despesa encontrada:', despesa);
+      }
+    } catch (err) {
+      console.error('Erro ao buscar despesa:', err);
+    }
+    mostrarMenu();
+    });
+  };
+  
 // Inicializa o script
 console.log('Bem-vindo ao sistema de gerenciamento de despesas!');
 mostrarMenu();

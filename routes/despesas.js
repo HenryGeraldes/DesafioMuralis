@@ -66,5 +66,24 @@ router.delete('/:id', async (req, res) => {
       res.status(500).json({ data: null, success: false, message: 'Erro ao deletar despesa.' });
     }
   });
+
+  // Rota para listar uma despesa específica (GET /api/despesas/:id)
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const despesa = await Despesa.listarPorId(id);
+
+    if (!despesa) {
+      return res.status(404).json({ data: null, success: false, message: 'Despesa não encontrada.' });
+    }
+
+    res.json({ data: despesa, success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ data: null, success: false, message: 'Erro ao buscar a despesa.' });
+  }
+});
+
   
 module.exports = router;
