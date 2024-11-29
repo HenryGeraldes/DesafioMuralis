@@ -1,23 +1,25 @@
 const readline = require('readline');
 const Despesa = require('./models/despesas'); // Importa a model de despesas
 
-// Configuração do readline para receber inputs do usuário
+// Configuração do readline para receber os inputs do usuário
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
 
 const menu = `
-Escolha uma operação:
-1 - Listar despesas (GET)
-2 - Cadastrar despesa (POST)
-3 - Atualizar despesa (PUT)
-4 - Deletar despesa (DELETE)
-5 - Listar despesa por ID (GETbyID)
-6 - Listar categorias (GET)
-7 - Criar categoria (POST)
-8 - Deletar categoria (DELETE)
-9 - Sair
+*******************************************
+*    Escolha uma operação:                *
+*    1 - Listar despesas (GET)            *
+*    2 - Cadastrar despesa (POST)         *
+*    3 - Atualizar despesa (PUT)          *
+*    4 - Deletar despesa (DELETE)         *
+*    5 - Listar despesa por ID (GETbyID)  *
+*    6 - Listar categorias (GET)          *
+*    7 - Criar categoria (POST)           *
+*    8 - Deletar categoria (DELETE)       *
+*    9 - Sair                             *
+*******************************************
 > `;
 
 
@@ -30,13 +32,13 @@ async function criarCategoria() {
           console.log(`Categoria criada com sucesso! ID: ${id}`);
           mostrarMenu();
         } catch (err) {
-          console.error('Erro ao criar categoria:', err.message);
+          console.error('Erro ao criar categoria', err.message);
         }
       });
     });
   }
   
-  // Função para deletar uma categoria (DELETE)
+// Função para deletar uma categoria (DELETE)
   async function deletarCategoria() {
     rl.question('ID da categoria a ser deletada: ', async (id) => {
       try {
@@ -48,12 +50,12 @@ async function criarCategoria() {
         }
         mostrarMenu();
       } catch (err) {
-        console.error('Erro ao deletar categoria:', err.message);
+        console.error('Erro ao deletar categoria', err.message);
       }
     });
   }
 
-// Função para listar categorias (GET)
+  // Função para listar categorias (GET)
 async function listarCategorias() {
     try {
       const categorias = await Despesa.listarCategorias();
@@ -74,7 +76,7 @@ function mostrarMenu() {
         case '1': // Listar despesas
           await listarDespesas();
           break;
-        case '2': // Cadastrar despesa
+        case '2': // Cadastrar nova despesa
           await cadastrarDespesa();
           break;
         case '3': // Atualizar despesa
@@ -89,7 +91,7 @@ function mostrarMenu() {
         case '6': // Listar categorias
           await listarCategorias();
           break;
-        case '7': // Criar categoria
+        case '7': // Criar nova categoria
           await criarCategoria();
           break;
         case '8': // Deletar categoria
@@ -110,7 +112,7 @@ function mostrarMenu() {
 async function listarDespesas() {
   try {
     const despesas = await Despesa.listar();
-    console.log('\n=== Despesas do Mês Atual ===');
+    console.log('\n=== Despesas ===');
     despesas.forEach((despesa) => {
       console.log(
         `ID: ${despesa.id}, Valor: R$${despesa.valor}, Data: ${despesa.data_compra}, Descrição: ${despesa.descricao}, Tipo Pagamento: ${despesa.tipo_pagamento}, Categoria ID: ${despesa.categoria_id}`
@@ -229,5 +231,5 @@ async function listarDespesaPorId() {
   };
   
 // Inicializa o script
-console.log('Bem-vindo ao sistema de gerenciamento de despesas!');
+console.log('\n','Bem-vindo ao sistema de gerenciamento de despesas!');
 mostrarMenu();

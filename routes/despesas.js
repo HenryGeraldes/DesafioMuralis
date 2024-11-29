@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Despesa = require('../models/despesas'); // Importa a model de despesas
 
-// Rota para listar as despesas do mês atual (GET /api/despesas)
+// Rota para listar as despesas (GET)
 router.get('/', async (req, res) => {
   try {
     const despesas = await Despesa.listar();
@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Rota para cadastrar uma nova despesa (POST /api/despesas)
+// Rota para cadastrar uma nova despesa (POST)
 router.post('/', async (req, res) => {
   const { valor, data_compra, descricao, tipo_pagamento, categoria_id } = req.body;
 
@@ -30,7 +30,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Atualiza uma despesa
+// Atualiza uma despesa (PUT)
 router.put('/:id', async (req, res) => {
     const { id } = req.params;
     const { valor, data_compra, descricao, tipo_pagamento, categoria_id } = req.body;
@@ -51,7 +51,7 @@ router.put('/:id', async (req, res) => {
     }
   });
   
-// Deleta uma despesa
+// Deleta uma despesa (DELETE)
 router.delete('/:id', async (req, res) => {
     const { id } = req.params;
   
@@ -67,7 +67,7 @@ router.delete('/:id', async (req, res) => {
     }
   });
 
-  // Rota para listar uma despesa específica (GET /api/despesas/:id)
+  // Rota para listar uma despesa específica (GETbyID)
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
 
@@ -85,7 +85,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Rota para listar as categorias (GET /api/categorias)
+// Rota para listar as categorias (GET)
 router.get('/categorias', async (req, res) => {
   try {
     const categorias = await Despesa.listarCategorias();
@@ -96,7 +96,7 @@ router.get('/categorias', async (req, res) => {
   }
 });
 
-// Rota para criar uma nova categoria (POST /api/categorias)
+// Rota para criar uma nova categoria (POST)
 router.post('/categorias', async (req, res) => {
   const { nome, descricao } = req.body;
 
@@ -113,7 +113,7 @@ router.post('/categorias', async (req, res) => {
   }
 });
 
-// Rota para deletar uma categoria (DELETE /api/categorias/:id)
+// Rota para deletar uma categoria (DELETE)
 router.delete('/categorias/:id', async (req, res) => {
   const { id } = req.params;
 

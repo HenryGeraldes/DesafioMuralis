@@ -2,7 +2,7 @@ const db = require('../db/database'); // Conexão com o banco de dados SQLite
 
 class Despesa {
 
- // Método para listar as categorias
+  // Método para listar as categorias
  static listarCategorias() {
   return new Promise((resolve, reject) => {
     const sql = 'SELECT * FROM categorias';
@@ -14,7 +14,6 @@ class Despesa {
     });
   });
 }
-
 
   // Método para criar uma nova categoria
   static criarCategoria({ nome, descricao }) {
@@ -55,12 +54,12 @@ class Despesa {
         if (err) {
           return reject(err);
         }
-        resolve(this.lastID); // Retorna o ID da despesa recém inserida
+        resolve(this.lastID); // Retorna o ID da despesa recém criada
       });
     });
   }
 
-  // Método para listar as despesas do mês atual
+  // Método para listar as despesas 
   static listar() {
     return new Promise((resolve, reject) => {
       const sql = `
@@ -70,7 +69,7 @@ class Despesa {
         if (err) {
           return reject(err);
         }
-        resolve(rows); // Retorna todas as despesas do mês atual
+        resolve(rows); // Retorna todas as despesas 
       });
     });
   }

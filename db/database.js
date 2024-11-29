@@ -4,6 +4,7 @@ const path = require('path');
 const dbPath = path.resolve(__dirname, 'despesas.db');
 const db = new sqlite3.Database(dbPath);
 
+// Criação do banco de dados
 db.serialize(() => {
   db.run(`CREATE TABLE IF NOT EXISTS despesas (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -32,10 +33,8 @@ db.serialize(() => {
 
 module.exports = db;
 
-
 /*
 // Função para resetar o banco de dados das despesas e recomeçar lista  
-
 
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
@@ -59,11 +58,10 @@ resetID();
 
 // Exporta a conexão com o banco para outros arquivos
 module.exports = db;
-
 */
+
 /*
 // Função para resetar o banco de dados das categorias e recomeçar lista  
-
 
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
