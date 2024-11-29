@@ -1,3 +1,28 @@
+/*const sqlite3 = require('sqlite3').verbose();
+const path = require('path');
+
+const dbPath = path.resolve(__dirname, 'despesas.db');
+const db = new sqlite3.Database(dbPath);
+
+// Função para resetar a tabela e o contador de ID
+const resetID = () => {
+  db.serialize(() => {
+    // Exclui todos os registros da tabela despesas
+    db.run("DELETE FROM despesas");
+
+    // Reseta o contador de auto incremento
+    db.run("DELETE FROM sqlite_sequence WHERE name='despesas'");
+  });
+};
+
+// Chama a função resetID quando o banco de dados for inicializado
+resetID();
+
+// Exporta a conexão com o banco para outros arquivos
+module.exports = db;
+
+*/
+
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
