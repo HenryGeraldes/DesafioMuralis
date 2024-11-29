@@ -23,7 +23,6 @@ class Despesa {
     return new Promise((resolve, reject) => {
       const sql = `
         SELECT * FROM despesas 
-        WHERE strftime('%Y-%m', data_compra) = strftime('%Y-%m', 'now')
       `;
       db.all(sql, [], (err, rows) => {
         if (err) {
