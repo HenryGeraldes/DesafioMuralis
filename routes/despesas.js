@@ -127,7 +127,5 @@ router.delete('/categorias/:id', async (req, res) => {
     console.error(err);
     res.status(500).json({ data: null, success: false, message: 'Erro ao deletar categoria.' });
   }
-});
-
-  
+});  
 module.exports = router;

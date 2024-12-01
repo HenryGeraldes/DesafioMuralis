@@ -22,6 +22,43 @@ const menu = `
 *******************************************
 > `;
 
+// Função para exibir o menu principal
+function mostrarMenu() {
+  rl.question(menu, async (escolha) => {
+    switch (escolha.trim()) {
+        case '1': // Listar despesas
+          await listarDespesas();
+          break;
+        case '2': // Cadastrar nova despesa
+          await cadastrarDespesa();
+          break;
+        case '3': // Atualizar despesa
+          await atualizarDespesa();
+          break;
+        case '4': // Deletar despesa
+          await deletarDespesa();
+          break;
+        case '5': // Listar despesa por ID
+          await listarDespesaPorId();
+          break;
+        case '6': // Listar categorias
+          await listarCategorias();
+          break;
+        case '7': // Criar nova categoria
+          await criarCategoria();
+          break;
+        case '8': // Deletar categoria
+          await deletarCategoria();
+          break;
+          case '9': // Sair
+          rl.close();
+          return;
+        default:
+          console.log('Escolha inválida. Tente novamente.');
+      }
+    mostrarMenu();
+  });
+}
 
 // Função para criar uma categoria (POST)
 async function criarCategoria() {
@@ -69,45 +106,6 @@ async function listarCategorias() {
     }
   }
 
-// Função para exibir o menu principal
-function mostrarMenu() {
-  rl.question(menu, async (escolha) => {
-    switch (escolha.trim()) {
-        case '1': // Listar despesas
-          await listarDespesas();
-          break;
-        case '2': // Cadastrar nova despesa
-          await cadastrarDespesa();
-          break;
-        case '3': // Atualizar despesa
-          await atualizarDespesa();
-          break;
-        case '4': // Deletar despesa
-          await deletarDespesa();
-          break;
-        case '5': // Listar despesa por ID
-          await listarDespesaPorId();
-          break;
-        case '6': // Listar categorias
-          await listarCategorias();
-          break;
-        case '7': // Criar nova categoria
-          await criarCategoria();
-          break;
-        case '8': // Deletar categoria
-          await deletarCategoria();
-          break;
-          case '9': // Sair
-          rl.close();
-          return;
-        default:
-          console.log('Escolha inválida. Tente novamente.');
-      }
-      
-    mostrarMenu();
-  });
-}
-
 // Função para listar despesas (GET)
 async function listarDespesas() {
   try {
@@ -115,7 +113,8 @@ async function listarDespesas() {
     console.log('\n=== Despesas ===');
     despesas.forEach((despesa) => {
       console.log(
-        `ID: ${despesa.id}, Valor: R$${despesa.valor}, Data: ${despesa.data_compra}, Descrição: ${despesa.descricao}, Tipo Pagamento: ${despesa.tipo_pagamento}, Categoria ID: ${despesa.categoria_id}`
+        `ID: ${despesa.id}, Valor: R$${despesa.valor}, Data: ${despesa.data_compra}, Descrição: ${despesa.descricao}, 
+        Tipo Pagamento: ${despesa.tipo_pagamento}, Categoria ID: ${despesa.categoria_id}`
       );
     });
     console.log('==============================\n');
@@ -134,7 +133,7 @@ async function cadastrarDespesa() {
       });
   
       rl.question('Valor da despesa: ', (valor) => {
-        rl.question('Data da compra (YYYY-MM-DD): ', (data_compra) => {
+        rl.question('Data da compra (DD-MM-AAAA): ', (data_compra) => {
           rl.question('Descrição: ', (descricao) => {
             rl.question('Tipo de pagamento (1-Dinheiro, 2-Débito, 3-Crédito, 4-PIX): ', (tipo_pagamento) => {
               rl.question('ID da categoria: ', async (categoria_id) => {
@@ -166,7 +165,7 @@ async function cadastrarDespesa() {
 async function atualizarDespesa() {
   rl.question('ID da despesa a ser atualizada: ', (id) => {
     rl.question('Novo valor da despesa: ', (valor) => {
-      rl.question('Nova data da compra (YYYY-MM-DD): ', (data_compra) => {
+      rl.question('Nova data da compra (DD-MM-AAAA): ', (data_compra) => {
         rl.question('Nova descrição: ', (descricao) => {
           rl.question('Novo tipo de pagamento (1-Dinheiro, 2-Débito, 3-Crédito, 4-PIX): ', (tipo_pagamento) => {
             rl.question('Novo ID da categoria: ', async (categoria_id) => {

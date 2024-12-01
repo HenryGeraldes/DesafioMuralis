@@ -105,6 +105,8 @@ static deletar(id) {
       });
     });
   }
+
+  // Lista uma despesa com base no ID fornecido 
   static listarPorId(id) {
     return new Promise((resolve, reject) => {
       const sql = `SELECT * FROM despesas WHERE id = ?`;
@@ -116,9 +118,5 @@ static deletar(id) {
       });
     });
   }
- 
-  
-
 }
-
 module.exports = Despesa;
